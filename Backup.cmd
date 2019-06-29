@@ -189,16 +189,16 @@ REM 回车使用当前文件名作为域用户名 - 建议使用
 
 if "%_user%" EQU "" set _user=%~n0
 
-REM cmdkey /add:*.sc.cn.schenker /user:schenker_sc\%_user% /pass:%_pw%
-REM cmdkey /add:sc.cn.schenker /user:schenker_sc\%_user% /pass:%_pw%
+REM cmdkey /add:*.sc.cn /user:schenker_sc\%_user% /pass:%_pw%
+REM cmdkey /add:sc.cn /user:schenker_sc\%_user% /pass:%_pw%
 
 REM // Add credentials for each server //
 REM // 为每台服务器添加凭据 //
 
-cmdkey /add:10.213.25.52  /user:schenker_cc\%_user% /pass:%_pw%
-cmdkey /add:10.213.27.237  /user:schenker_cc\%_user% /pass:%_pw%
-cmdkey /add:*.cc.cn.schenker  /user:schenker_cc\%_user% /pass:%_pw%
-cmdkey /add:cc.cn.schenker  /user:schenker_cc\%_user% /pass:%_pw%
+cmdkey /add:10.10.25.52  /user:sc_cc\%_user% /pass:%_pw%
+cmdkey /add:10.10.27.237  /user:sc_cc\%_user% /pass:%_pw%
+cmdkey /add:*.cc.cn  /user:scr_cc\%_user% /pass:%_pw%
+cmdkey /add:cc.cn  /user:sc_cc\%_user% /pass:%_pw%
 
 REM // Add credentials for each server //
 REM // 为每台服务器添加凭据 //
@@ -217,16 +217,16 @@ REM // 网络驱动器还原模块 //
 REM // Printer Modules //
 REM // 打印机模块 //
 
-for /f %%a in ('mshta VBScript:code(close(Execute("FmtDate=msgbox(""Continue to add printers to Shanghai users?"",36,""Printer""):CreateObject(""Scripting.FileSystemObject"").GetStandardStream(1).Write FmtDate"^)^)^)') do set msg=%%a
+for /f %%a in ('mshta VBScript:code(close(Execute("FmtDate=msgbox(""Continue to add printers to users?"",36,""Printer""):CreateObject(""Scripting.FileSystemObject"").GetStandardStream(1).Write FmtDate"^)^)^)') do set msg=%%a
 
 if [%msg%] == [7] exit
 
-rundll32 printui.dll PrintUIEntry /in /n"\\10.213.27.237\Raffles Ricoh Printer"
+rundll32 printui.dll PrintUIEntry /in /n"\\10.10.27.237\Ricoh Printer"
 
 ping -n 5 127.1 >nul
 
 echo Set ws = WScript.CreateObject("WScript.Shell")>%~n0.vbs
-echo set e = ws.exec("rundll32 Printui.dll PrintUIEntry /e /n ""\\10.213.27.237\Raffles Ricoh Printer""") >>%~n0.vbs
+echo set e = ws.exec("rundll32 Printui.dll PrintUIEntry /e /n ""\\10.10.27.237\Ricoh Printer""") >>%~n0.vbs
 echo WScript.Sleep 500 >>%~n0.vbs
 
 echo ws.sendkeys "^{TAB}" >>%~n0.vbs
@@ -238,7 +238,7 @@ echo ws.sendkeys "%~n0" >>%~n0.vbs
 echo ws.sendkeys "%%d" >>%~n0.vbs
 echo ws.sendkeys "{DOWN}" >>%~n0.vbs
 echo ws.sendkeys "{TAB}" >>%~n0.vbs
-echo ws.sendkeys "cc.cn.schenker" >>%~n0.vbs
+echo ws.sendkeys "cc.cn" >>%~n0.vbs
 %~n0.vbs
 del %~n0.vbs
 
