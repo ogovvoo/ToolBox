@@ -41,7 +41,7 @@ more /e +%line% "%~f0" >.\Restore\%username%.cmd
 
 REM 外置默认通用公共盘信息文件defsharedrive.txt
 REM 公共盘信息编写格式如下：
-REM P:\10.213.25.52\Public
+REM P:\10.10.25.52\Public
 if exist defsharedrive.txt more /e defsharedrive.txt >>.\Restore\%username%.cmd
 
 
@@ -72,7 +72,7 @@ powercfg /x monitor-timeout-ac 15
 powercfg /x disk-timeout-ac 20
 powercfg /x standby-timeout-ac 15
 
-findstr /c:"ERROR " .\Backup\%username%\%username%_backuplog.log > .\Backup\%username%\%username%_backuplog_error
+findstr "(0" .\Backup\%username%\%username%_backuplog.log > .\Backup\%username%\%username%_backuplog_error
 start /max notepad .\Backup\%username%\%username%_backuplog_error
 
 exit
@@ -85,7 +85,7 @@ for %%i in (C D E F) do (
 	if /i [%~d0] == [%%i:] goto :next
 	if exist %%i: (
 		if not exist %%i:\Deploy (
-			robocopy %%i:\ .\Backup\%username%\%%i_Drive /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 /xa:sh /xd config.msi boot $WINDOWS.~BT $RECYCLE.BIN "Documents and Settings" hiberfil.sys MSOCache  pagefile.sys ProgramData Recovery swapfile.sys "System Volume Information" users Windows "Program Files" "Program Files (x86)" | findstr /c:"ERROR "
+			robocopy %%i:\ .\Backup\%username%\%%i_Drive /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 /xa:sh /xd config.msi boot $WINDOWS.~BT $RECYCLE.BIN "Documents and Settings" hiberfil.sys MSOCache  pagefile.sys ProgramData Recovery swapfile.sys "System Volume Information" users Windows "Program Files" "Program Files (x86)" | findstr "(0"
 			attrib -s -h .\Backup\%username%\%%i_Drive
 		)
 	)
@@ -95,8 +95,8 @@ for %%i in (C D E F) do (
 REM backup user profile 
 REM 备份用户配置文件数据
 
-robocopy "%userprofile%" .\Backup\%username%\%username%.bak /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 /xa:sh /xd AppData IntelGraphicsProfiles | findstr /c:"ERROR "
-robocopy "%appdata%\microsoft\Signatures" .\Backup\%username%\Signatures /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 | findstr /c:"ERROR "
+robocopy "%userprofile%" .\Backup\%username%\%username%.bak /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 /xa:sh /xd AppData IntelGraphicsProfiles | findstr "(0"
+robocopy "%appdata%\microsoft\Signatures" .\Backup\%username%\Signatures /s /xj /np /tee /njh /njs /log+:Backup\%username%\%username%_backuplog.log /r:1 /w:1 | findstr "(0"
 
 REM backup chrome bookmarks
 REM 备份Chrome收藏夹
